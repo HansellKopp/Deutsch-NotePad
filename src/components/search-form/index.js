@@ -4,9 +4,7 @@ import {
   InputGroup,
   Input,
   InputGroupButton,
-  Row,
-  Col,
-  Container
+  Row
 } from 'reactstrap'
 
 import ButtonSelector from '../button-selector'
@@ -59,36 +57,36 @@ class Form extends React.Component {
 
   render () {
     return (
-      <Container>
+      <div>
         <Row>
-          <Col xs='12'>
-            <InputGroup className='margin'>
-              <ButtonSelector
-                caption='From'
-                onSelected={this.onFromSelect}
-                value={this.state.from}
-              />
-              <ButtonSelector
-                caption='Dest'
-                onSelected={this.onDestSelect}
-                value={this.state.dest}
-              />
-              <Input
-                onChange={this.onChange}
-                onKeyDown={this.onKeyDown}
-                value={this.state.searchValue}
-                placeholder={this.props.placeholder}
-              />
-              <InputGroupButton
-                color='success'
-                onClick={this.onSubmitClick}
-              >
-                Submit
-              </InputGroupButton>
-            </InputGroup>
-          </Col>
+          <ButtonSelector
+            caption='From'
+            onSelected={this.onFromSelect}
+            value={this.state.from}
+          />
+          <ButtonSelector
+            caption='Dest'
+            onSelected={this.onDestSelect}
+            value={this.state.dest}
+          />
         </Row>
-      </Container>
+        <Row>
+          <InputGroup>
+            <Input
+              onChange={this.onChange}
+              onKeyDown={this.onKeyDown}
+              value={this.state.searchValue}
+              placeholder={this.props.placeholder}
+            />
+            <InputGroupButton
+              color='success'
+              onClick={this.onSubmitClick}
+            >
+              Submit
+            </InputGroupButton>
+          </InputGroup>
+        </Row>
+      </div>
     )
   }
 }

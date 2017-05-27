@@ -13544,7 +13544,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             _reactstrap.Navbar,
             { color: 'primary', inverse: true, toggleable: true },
-            _react2.default.createElement(_reactstrap.NavbarToggler, { right: true, onClick: this.toggle }),
+            _react2.default.createElement(_reactstrap.NavbarToggler, { onClick: this.toggle }),
             _react2.default.createElement(
               _reactstrap.NavbarBrand,
               { href: '/' },
@@ -13775,7 +13775,7 @@ var DataList = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
+        _reactstrap.Row,
         null,
         _react2.default.createElement(
           _reactstrap.Table,
@@ -13967,41 +13967,41 @@ var Form = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactstrap.Container,
+        'div',
         null,
         _react2.default.createElement(
           _reactstrap.Row,
           null,
+          _react2.default.createElement(_buttonSelector2.default, {
+            caption: 'From',
+            onSelected: this.onFromSelect,
+            value: this.state.from
+          }),
+          _react2.default.createElement(_buttonSelector2.default, {
+            caption: 'Dest',
+            onSelected: this.onDestSelect,
+            value: this.state.dest
+          })
+        ),
+        _react2.default.createElement(
+          _reactstrap.Row,
+          null,
           _react2.default.createElement(
-            _reactstrap.Col,
-            { xs: '12' },
+            _reactstrap.InputGroup,
+            null,
+            _react2.default.createElement(_reactstrap.Input, {
+              onChange: this.onChange,
+              onKeyDown: this.onKeyDown,
+              value: this.state.searchValue,
+              placeholder: this.props.placeholder
+            }),
             _react2.default.createElement(
-              _reactstrap.InputGroup,
-              { className: 'margin' },
-              _react2.default.createElement(_buttonSelector2.default, {
-                caption: 'From',
-                onSelected: this.onFromSelect,
-                value: this.state.from
-              }),
-              _react2.default.createElement(_buttonSelector2.default, {
-                caption: 'Dest',
-                onSelected: this.onDestSelect,
-                value: this.state.dest
-              }),
-              _react2.default.createElement(_reactstrap.Input, {
-                onChange: this.onChange,
-                onKeyDown: this.onKeyDown,
-                value: this.state.searchValue,
-                placeholder: this.props.placeholder
-              }),
-              _react2.default.createElement(
-                _reactstrap.InputGroupButton,
-                {
-                  color: 'success',
-                  onClick: this.onSubmitClick
-                },
-                'Submit'
-              )
+              _reactstrap.InputGroupButton,
+              {
+                color: 'success',
+                onClick: this.onSubmitClick
+              },
+              'Submit'
             )
           )
         )
@@ -14126,7 +14126,6 @@ var Vocabulary = function (_Component) {
   }, {
     key: 'onChange',
     value: function onChange(filter) {
-      console.log(filter);
       this.getData(filter);
     }
   }, {
@@ -14232,14 +14231,12 @@ var Vocabulary = function (_Component) {
     }
   }, {
     key: 'onSelected',
-    value: function onSelected(event) {
-      console.log(event);
-    }
+    value: function onSelected(event) {}
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
+        _reactstrap.Container,
         null,
         _react2.default.createElement(_searchForm2.default, {
           title: 'phrase',
@@ -14249,9 +14246,13 @@ var Vocabulary = function (_Component) {
           fromDest: this.state.fromDest
         }),
         this.state.message && _react2.default.createElement(
-          _reactstrap.UncontrolledAlert,
-          { color: 'danger' },
-          this.state.message
+          _reactstrap.Row,
+          null,
+          _react2.default.createElement(
+            _reactstrap.UncontrolledAlert,
+            { color: 'danger' },
+            this.state.message
+          )
         ),
         _react2.default.createElement(_dataList2.default, {
           rows: this.state.rows,

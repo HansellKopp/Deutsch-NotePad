@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import { UncontrolledAlert } from 'reactstrap'
+import {
+  UncontrolledAlert,
+  Container,
+  Row
+} from 'reactstrap'
 
 import fetchJsonp from 'fetch-jsonp'
 import queryString from 'query-string'
@@ -29,7 +33,6 @@ class Vocabulary extends Component {
   }
 
   onChange (filter) {
-    console.log(filter)
     this.getData(filter)
   }
 
@@ -120,12 +123,11 @@ class Vocabulary extends Component {
   }
 
   onSelected (event) {
-    console.log(event)
   }
 
   render () {
     return (
-      <div>
+      <Container>
         <SearchFrom
           title='phrase'
           placeholder='phrase'
@@ -134,15 +136,17 @@ class Vocabulary extends Component {
           fromDest={this.state.fromDest}
         />
         { this.state.message &&
-          <UncontrolledAlert color='danger'>
-            {this.state.message}
-          </UncontrolledAlert>
+          <Row>
+            <UncontrolledAlert color='danger'>
+              {this.state.message}
+            </UncontrolledAlert>
+          </Row>
         }
         <DataView
           rows={this.state.rows}
           fromDest={this.state.fromDest}
         />
-      </div>
+      </Container>
     )
   }
 }

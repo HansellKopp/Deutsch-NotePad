@@ -43,7 +43,7 @@ class App extends React.Component {
       <Router>
         <div>
           <Navbar color='primary' inverse toggleable>
-            <NavbarToggler right onClick={this.toggle} />
+            <NavbarToggler onClick={this.toggle} />
             <NavbarBrand href='/'>Deutsch Notepad</NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>

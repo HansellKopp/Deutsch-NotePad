@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import {
   Badge,
-  Table
+  Table,
+  Row
 } from 'reactstrap'
 
 class DataList extends Component {
   render () {
     return (
-      <div>
+      <Row>
         <Table striped bordered>
           <thead>
             <tr>
@@ -34,7 +35,7 @@ class DataList extends Component {
             )}
           </tbody>
         </Table>
-      </div>
+      </Row>
     )
   }
 }
