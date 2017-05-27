@@ -7,6 +7,9 @@ import {
 
 class DataList extends Component {
   render () {
+    const items = this.props.rows.sort(
+      (a, b) => a.from.text > b.from.text
+    )
     return (
       <Row>
         <Table striped bordered>
@@ -17,7 +20,7 @@ class DataList extends Component {
             </tr>
           </thead>
           <tbody>
-            { this.props.rows.map((row, key) =>
+            { items.map((row, key) =>
               <tr key={key}>
                 <td>
                   <div>

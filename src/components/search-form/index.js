@@ -3,7 +3,6 @@ import React from 'react'
 import {
   InputGroup,
   Input,
-  InputGroupButton,
   Row
 } from 'reactstrap'
 
@@ -19,7 +18,6 @@ class Form extends React.Component {
     }
     this.onChange = this.onChange.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
     this.onFromSelect = this.onFromSelect.bind(this)
     this.onDestSelect = this.onDestSelect.bind(this)
   }
@@ -43,10 +41,6 @@ class Form extends React.Component {
     }
   }
 
-  onSubmit (event) {
-    this.props.onSubmit(this.state)
-  }
-
   onFromSelect (from) {
     this.setState({ from })
   }
@@ -59,31 +53,23 @@ class Form extends React.Component {
     return (
       <div>
         <Row>
-          <ButtonSelector
-            caption='From'
-            onSelected={this.onFromSelect}
-            value={this.state.from}
-          />
-          <ButtonSelector
-            caption='Dest'
-            onSelected={this.onDestSelect}
-            value={this.state.dest}
-          />
-        </Row>
-        <Row>
           <InputGroup>
+            <ButtonSelector
+              caption='From'
+              onSelected={this.onFromSelect}
+              value={this.state.from}
+            />
+            <ButtonSelector
+              caption='Dest'
+              onSelected={this.onDestSelect}
+              value={this.state.dest}
+            />
             <Input
               onChange={this.onChange}
               onKeyDown={this.onKeyDown}
               value={this.state.searchValue}
               placeholder={this.props.placeholder}
             />
-            <InputGroupButton
-              color='success'
-              onClick={this.onSubmitClick}
-            >
-              Submit
-            </InputGroupButton>
           </InputGroup>
         </Row>
       </div>

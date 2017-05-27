@@ -7,11 +7,6 @@ import { Collapse,
          NavItem,
          NavLink
 } from 'reactstrap'
-import {
-  BrowserRouter as Router,
-  Link,
-  Route
-} from 'react-router-dom'
 
 import storage from '../../utils/storage'
 import Vocabulary from '../../sites/Vocabulary'
@@ -40,31 +35,23 @@ class App extends React.Component {
 
   render () {
     return (
-      <Router>
-        <div>
-          <Navbar color='primary' inverse toggleable>
-            <NavbarToggler onClick={this.toggle} />
-            <NavbarBrand href='/'>Deutsch Notepad</NavbarBrand>
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className='ml-auto' navbar>
-                <NavItem>
-                  <NavLink tag={Link} to='/Vocabulary'>Vocabulary</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href='https://github.com/HansellKopp/Deutsch-Notepad'>Github</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href='#' onClick={this.clearAll}>Clear All</NavLink>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-          <div>
-            <Route exact path='/' component={Vocabulary} />
-            <Route exact path='/Vocabulary' component={Vocabulary} />
-          </div>
-        </div>
-      </Router>
+      <div>
+        <Navbar color='primary' inverse toggleable>
+          <NavbarToggler onClick={this.toggle} />
+          <NavbarBrand href='/'>Deutsch Notepad</NavbarBrand>
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className='ml-auto' navbar>
+              <NavItem>
+                <NavLink href='https://github.com/HansellKopp/Deutsch-Notepad'>Github</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href='#' onClick={this.clearAll}>Clear All</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+        <Vocabulary />
+      </div>
     )
   }
 }
