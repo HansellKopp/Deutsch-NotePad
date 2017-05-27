@@ -13,53 +13,55 @@ import {
   Route
 } from 'react-router-dom'
 
-const Dummy = () => (<div />)
+import storage from '../../utils/storage'
+import Vocabulary from '../../sites/Vocabulary'
 
 class App extends React.Component {
   constructor (props) {
     super(props)
+    this.clearAll = this.clearAll.bind(this)
     this.toggle = this.toggle.bind(this)
     this.state = {
       isOpen: false
     }
   }
+
   toggle () {
     this.setState({
       isOpen: !this.state.isOpen
     })
   }
+
+  clearAll () {
+    storage.set('phrases', [])
+    storage.set('fromDest', ['de', 'es'])
+    window.location.reload()
+  }
+
   render () {
     return (
       <Router>
         <div>
-          <Navbar className='container' color='primary' inverse toggleable>
-            <NavbarToggler left onClick={this.toggle} />
+          <Navbar color='primary' inverse toggleable>
+            <NavbarToggler right onClick={this.toggle} />
             <NavbarBrand href='/'>Deutsch Notepad</NavbarBrand>
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
                 <NavItem>
-                  <NavLink tag={Link} to='/Grammar'>Grammar</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} to='/Verbs'>Verbs</NavLink>
-                </NavItem>
-                <NavItem>
                   <NavLink tag={Link} to='/Vocabulary'>Vocabulary</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} to='/Update'>Update</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink href='https://github.com/HansellKopp/Deutsch-Notepad'>Github</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink href='#' onClick={this.clearAll}>Clear All</NavLink>
+                </NavItem>
               </Nav>
             </Collapse>
           </Navbar>
-          <div className='container'>
-            <Route exact path='/Grammar' component={Dummy} />
-            <Route exact path='/Verbs' component={Dummy} />
-            <Route exact path='/Vocabulary' component={Dummy} />
-            <Route exact path='/Update' component={Dummy} />
+          <div>
+            <Route exact path='/' component={Vocabulary} />
+            <Route exact path='/Vocabulary' component={Vocabulary} />
           </div>
         </div>
       </Router>

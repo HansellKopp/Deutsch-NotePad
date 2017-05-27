@@ -5,12 +5,14 @@
   "scripts": {
     "dashboard": "webpack-dashboard -- webpack-dev-server",
     "start": "webpack-dev-server",
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-jest": "^20.0.0",
     "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
@@ -25,13 +27,18 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "bootstrap": "4.0.0-alpha.6",
+    "fetch-jsonp": "^1.0.6",
+    "prop-types": "^15.5.9",
+    "query-string": "^4.3.4",
     "react": "^15.5.4",
     "react-addons-css-transition-group": "^15.5.2",
     "react-addons-transition-group": "^15.5.2",
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "reactstrap": "^4.5.0"
+    "reactstrap": "^4.5.0",
+    "whatwg-fetch": "^2.0.3"
   }
 }
