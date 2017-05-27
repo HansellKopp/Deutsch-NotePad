@@ -12,4 +12,5 @@
   https://glosbe.com/gapi/translate?from=de&dest=es&format=json&phrase=tisch&pretty=true
 
   https://www.openthesaurus.de/synonyme/search?q=Tisch&format=application/json
-Work in process...
+
+Work in progress...
