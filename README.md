@@ -1,6 +1,6 @@
-# Deutsch Notepad
+# DeutschPad
   This app is a progressive web application created with React.
-  The App holds grammatical notes, tables, Vocabulary, verbs conjugations, etc.
+  The App holds Vocabulary,grammatical notes, tables, verbs, conjugations, etc.
 ## Install dependencies
   yarn install or npm install
 ## Run app dev-server

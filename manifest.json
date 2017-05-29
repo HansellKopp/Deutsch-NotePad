@@ -1,6 +1,6 @@
 {
-  "short_name": "Deutsch Note",
-  "name": "Deutsch Notepad",
+  "short_name": "Deutsch Pad",
+  "name": "DeutschPad",
   "icons": [
   				{
   					"src": "img/icon.png",

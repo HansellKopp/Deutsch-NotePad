@@ -9,6 +9,7 @@ const buildDir = resolve(__dirname, 'build')
 module.exports = {
   entry: `${srvDir}/index.js`,
   output: {
+    path: `${buildDir}`,
     filename: 'build.js'
   },
   module: {
