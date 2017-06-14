@@ -3,17 +3,18 @@ import React from 'react'
 import {
   InputGroup,
   Input,
-  Row
+  Row,
+  Button
 } from 'reactstrap'
 
 import ButtonSelector from '../button-selector'
+
+import style from './style.css'
 
 class Form extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      from: this.props.fromDest[0],
-      dest: this.props.fromDest[1],
       searchValue: ''
     }
     this.onChange = this.onChange.bind(this)
@@ -23,46 +24,36 @@ class Form extends React.Component {
   }
 
   onChange (event) {
-    this.setState(
-      {
-        searchValue: event.target.value
-      },
-      this.props.onChange({
-        from: this.state.from,
-        dest: this.state.dest,
-        searchValue: event.target.value
-      })
-    )
+    this.props.onChange(event.target.value)
+    this.setState({searchValue: event.target.value})
   }
 
   onKeyDown (event) {
     if (event.key === 'Enter') {
-      this.props.onSubmit(this.state)
+      this.props.onSubmit(this.state.searchValue)
     }
   }
 
   onFromSelect (from) {
-    this.setState({ from })
+    this.props.onFromChange(from)
   }
 
   onDestSelect (dest) {
-    this.setState({ dest })
+    this.props.onDestChange(dest)
   }
 
   render () {
     return (
       <div>
-        <Row>
+        <Row className={style.margin}>
           <InputGroup>
             <ButtonSelector
-              caption='From'
               onSelected={this.onFromSelect}
-              value={this.state.from}
+              value={this.props.from}
             />
             <ButtonSelector
-              caption='Dest'
               onSelected={this.onDestSelect}
-              value={this.state.dest}
+              value={this.props.dest}
             />
             <Input
               onChange={this.onChange}
@@ -70,6 +61,13 @@ class Form extends React.Component {
               value={this.state.searchValue}
               placeholder={this.props.placeholder}
             />
+            <Button
+              outline
+              color='success'
+              onClick={() => this.props.onSubmit(this.state.searchValue)}
+            >
+              Search
+            </Button>
           </InputGroup>
         </Row>
       </div>
@@ -79,7 +77,8 @@ class Form extends React.Component {
 Form.PropTypes = {
   title: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
-  fromDest: React.PropTypes.array.isRequired,
+  from: React.PropTypes.string.isRequired,
+  dest: React.PropTypes.string.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
   onChange: React.PropTypes.func.isRequired,
   onFromChange: React.PropTypes.func.isRequired,

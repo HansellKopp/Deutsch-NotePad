@@ -33,7 +33,7 @@ class ButtonSelector extends React.Component {
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle caret>
-          {this.props.caption}{': '}<Badge pill>{this.props.value}</Badge>
+          <Badge pill>{this.props.value}</Badge>
         </DropdownToggle>
         <DropdownMenu>
           {

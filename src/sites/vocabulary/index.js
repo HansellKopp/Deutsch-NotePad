@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import {
-  UncontrolledAlert,
-  Container,
-  Row
-} from 'reactstrap'
+import { UncontrolledAlert } from 'reactstrap'
 
-import fetchJsonp from 'fetch-jsonp'
 import queryString from 'query-string'
 
 import storage from '../../utils/storage'
@@ -15,9 +10,13 @@ import SearchFrom from '../../components/search-form'
 class Vocabulary extends Component {
   constructor () {
     super()
+    const fromDest = storage.get('fromDest')
+    const from = fromDest !== null ? fromDest[0] : 'de'
+    const dest = fromDest !== null ? fromDest[1] : 'es'
     this.state = {
-      rows: [],
-      fromDest: ['de', 'es'],
+      from,
+      dest,
+      rows: this.getData(from, dest),
       message: ''
     }
     this.onChange = this.onChange.bind(this)
@@ -25,29 +24,31 @@ class Vocabulary extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.searchItem = this.searchItem.bind(this)
     this.addItem = this.addItem.bind(this)
-    this.onSelected = this.onSelected.bind(this)
-  }
-
-  componentWillMount () {
-    this.getData()
+    this.onFromChange = this.onFromChange.bind(this)
+    this.onDestChange = this.onDestChange.bind(this)
   }
 
   onChange (filter) {
-    this.getData(filter)
+    this.setState({
+      rows: this.getData(this.state.from, this.state.dest, filter),
+      message: ''
+    })
   }
 
-  getData (filter = null) {
-    let rows = storage.get('phrases')
-    if (rows) {
-      if (filter) {
-        rows = rows.filter(
-          x =>
-            x.from.text.toLowerCase().startsWith(filter.searchValue.toLowerCase()) ||
-            x.dest.text.toLowerCase().startsWith(filter.searchValue.toLowerCase())
-        )
-      }
-      this.setState({ rows })
+  getData (from, dest, filter = null) {
+    let rows = storage.get('data')
+    if (!rows) {
+      return []
     }
+    rows = rows.filter(
+        x => x[from] !== undefined && x[dest] !== undefined
+    )
+    if (filter) {
+      rows = rows.filter(
+        x => x[from][0].toLowerCase().startsWith(filter.toLowerCase())
+      )
+    }
+    return rows
   }
 
   onSubmit (filter) {
@@ -57,96 +58,88 @@ class Vocabulary extends Component {
   searchItem (filter) {
     if (filter) {
       const param = queryString.stringify({
-        'from': filter.from,
-        'dest': filter.dest,
-        'format': 'json',
-        'pretty': 'true',
-        'phrase': filter.searchValue
+        'from': this.state.from,
+        'dest': this.state.dest,
+        'phrase': filter
       })
-      fetchJsonp(`https://glosbe.com/gapi/translate?${param}`)
-        .then(response => response.json())
-        .then(data => this.addItem(filter, data.tuc))
+      var init = { method: 'GET',
+        headers: new window.Headers(),
+        mode: 'cors',
+        cache: 'default'
+      }
+      window.fetch(`https://files.000webhost.com/api?${param}`, init)
+        .then(response => {
+          if (!response.ok) {
+            this.setState({ message: `${filter} not found` })
+            return null
+          }
+          return response.json()
+        })
+        .then(data => this.addItem(data, filter))
         .catch(ex => console.log('parsing failed', ex))
     }
   }
 
-  addItem (filter, data) {
-    if (data.length > 0) {
-      const phrase = this.getPhrase(data, filter.dest)
-      const meaningsFrom = this.getMeaning(data, filter.from)
-      const meaningsDest = this.getMeaning(data, filter.dest)
-      const row = {
-        'from': {
-          'language': filter.from,
-          'text': filter.searchValue,
-          'meaning': meaningsFrom
-        },
-        'dest': {
-          'language': filter.dest,
-          'text': phrase,
-          'meaning': meaningsDest
-        }
+  addItem (row, filter) {
+    if (!row) {
+      return
+    }
+    const newRows = this.getData(this.state.from, this.state.dest)
+    const rows = [row, ...newRows].sort(
+      (a, b) => a[this.state.from] > b[this.state.from]
+    )
+    storage.set('data', rows)
+    storage.set('fromDest', [this.state.from, this.state.dest])
+    this.onChange(filter)
+  }
+
+  onFromChange (from) {
+    const fromDest = [from, this.state.dest]
+    this.setState(
+      {
+        from,
+        rows: this.getData(from, this.state.dest)
       }
-      this.getData()
-      const rows = [row, ...this.state.rows]
-      this.setState({
-        rows,
-        message: ''
-      })
-      storage.set('phrases', rows)
-      storage.set('fromDest', [filter.from, filter.dest])
-    } else {
-      this.setState({
-        message: `sorry ${filter.searchValue} not found!`
-      })
-    }
+    )
+    storage.set('fromDest', fromDest)
   }
 
-  getPhrase (data, language) {
-    let phrase = null
-    const item = data.find(data => data.phrase.language === language)
-    if (item) {
-      phrase = item.phrase.text
-    }
-    return phrase
-  }
-
-  getMeaning (data, language) {
-    let meaning = null
-    if (data[0].meanings) {
-      const item = data[0].meanings.find(item => item.language === language)
-      if (item) {
-        meaning = item.text
+  onDestChange (dest) {
+    const fromDest = [this.state.from, dest]
+    this.setState(
+      {
+        dest,
+        rows: this.getData(this.state.from, dest)
       }
-    }
-    return meaning
-  }
-
-  onSelected (event) {
+    )
+    storage.set('fromDest', fromDest)
   }
 
   render () {
+    console.log(this.state)
     return (
-      <Container>
+      <div>
+        { this.state.message &&
+          <UncontrolledAlert color='danger'>
+            {this.state.message}
+          </UncontrolledAlert>
+        }
         <SearchFrom
           title='phrase'
           placeholder='phrase'
+          from={this.state.from}
+          dest={this.state.dest}
           onSubmit={this.onSubmit}
           onChange={this.onChange}
-          fromDest={this.state.fromDest}
+          onFromChange={this.onFromChange}
+          onDestChange={this.onDestChange}
         />
-        { this.state.message &&
-          <Row>
-            <UncontrolledAlert color='danger'>
-              {this.state.message}
-            </UncontrolledAlert>
-          </Row>
-        }
         <DataView
           rows={this.state.rows}
-          fromDest={this.state.fromDest}
+          from={this.state.from}
+          dest={this.state.dest}
         />
-      </Container>
+      </div>
     )
   }
 }

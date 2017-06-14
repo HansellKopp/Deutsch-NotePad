@@ -8,6 +8,9 @@ const s = {
   },
   set (k, v) {
     window.localStorage.setItem(k, JSON.stringify(v))
+  },
+  clear (k) {
+    window.localStorage.removeItem(k)
   }
 }
 

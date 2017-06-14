@@ -5,18 +5,18 @@ import {
   Row
 } from 'reactstrap'
 
+import style from './style.css'
+
 class DataList extends Component {
   render () {
-    const items = this.props.rows.sort(
-      (a, b) => a.from.text > b.from.text
-    )
+    const items = this.props.rows
     return (
-      <Row>
+      <Row className={style.margin}>
         <Table striped bordered>
           <thead>
             <tr>
-              <th><h3><Badge pill>{this.props.fromDest[0]}</Badge>{' '}</h3></th>
-              <th><h3><Badge pill>{this.props.fromDest[1]}</Badge>{' '}</h3></th>
+              <th><h5><Badge pill>{this.props.from}</Badge>{' '}</h5></th>
+              <th><h5><Badge pill>{this.props.dest}</Badge>{' '}</h5></th>
             </tr>
           </thead>
           <tbody>
@@ -24,14 +24,24 @@ class DataList extends Component {
               <tr key={key}>
                 <td>
                   <div>
-                    <h5>{row.from.text}</h5>
-                    <p>{row.from.meaning}</p>
+                    { row[this.props.from].map((item, id) =>
+                      <p
+                        className={id === 0 ? style.wordHead : style.wordBody}
+                        key={id}>
+                        {item}
+                      </p>
+                    )}
                   </div>
                 </td>
                 <td>
                   <div>
-                    <h5>{row.dest.text}</h5>
-                    <p>{row.dest.meaning}</p>
+                    { row[this.props.dest].map((item, id) =>
+                      <p
+                        className={id === 0 ? style.wordHead : style.wordBody}
+                        key={id}>
+                        {item}
+                      </p>
+                    )}
                   </div>
                 </td>
               </tr>
@@ -44,7 +54,8 @@ class DataList extends Component {
 }
 DataList.PropTypes = {
   rows: React.PropTypes.array.isRequired,
-  fromDest: React.PropTypes.array.isRequired,
+  from: React.PropTypes.array.isRequired,
+  dest: React.PropTypes.array.isRequired,
   onClick: React.PropTypes.func
 }
 

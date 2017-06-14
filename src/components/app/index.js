@@ -28,8 +28,8 @@ class App extends React.Component {
   }
 
   clearAll () {
-    storage.set('phrases', [])
-    storage.set('fromDest', ['de', 'es'])
+    storage.clear('data')
+    storage.clear('fromDest')
     window.location.reload()
   }
 
@@ -38,7 +38,7 @@ class App extends React.Component {
       <div>
         <Navbar color='primary' inverse toggleable>
           <NavbarToggler onClick={this.toggle} />
-          <NavbarBrand href='/'>Deutsch Notepad</NavbarBrand>
+          <NavbarBrand href='/'>DeutschPad</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className='ml-auto' navbar>
               <NavItem>

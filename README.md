@@ -1,6 +1,6 @@
 # DeutschPad
   This app is a progressive web application created with React.
-  The App holds Vocabulary,grammatical notes, tables, verbs, conjugations, etc.
+  The App holds words with definitions in many languages.
 ## Install dependencies
   yarn install or npm install
 ## Run app dev-server
@@ -11,6 +11,10 @@
 ## External Dict api
   https://glosbe.com/gapi/translate?from=de&dest=es&format=json&phrase=tisch&pretty=true
 
-  https://www.openthesaurus.de/synonyme/search?q=Tisch&format=application/json
+## Demo url
+  https://deutschpad.000webhostapp.com/
+
+## Api
+  https://deutschpad.000webhostapp.com/api.php?from=de&dest=it&phrase=fuß
 
 Work in progress...
