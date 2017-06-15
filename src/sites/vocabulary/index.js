@@ -67,7 +67,7 @@ class Vocabulary extends Component {
         mode: 'cors',
         cache: 'default'
       }
-      window.fetch(`https://files.000webhost.com/api?${param}`, init)
+      window.fetch(`/api?${param}`, init)
         .then(response => {
           if (!response.ok) {
             this.setState({ message: `${filter} not found` })
